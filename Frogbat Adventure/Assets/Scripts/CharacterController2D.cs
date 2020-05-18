@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,6 +12,9 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
 	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
 	[SerializeField] private Collider2D m_CrouchDisableCollider;				// A collider that will be disabled when crouching
+
+    [SerializeField] private Transform m_WallCheck_L;
+    [SerializeField] private Transform m_WallCheck_R;
 
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded;            // Whether or not the player is grounded.
@@ -63,12 +67,27 @@ public class CharacterController2D : MonoBehaviour
 			{
 				m_Grounded = true;
                 JumpForce = m_JumpForce; //Used for 1.1 Jump
+
                 if (!wasGrounded)
 					OnLandEvent.Invoke();
 			}
 		}
-        
-	}
+
+        Collider2D[] ceilColliders = Physics2D.OverlapCircleAll(m_CeilingCheck.position, k_GroundedRadius, m_WhatIsGround);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject != gameObject)
+            {
+                m_Grounded = true;
+                JumpForce = m_JumpForce; //Used for 1.1 Jump
+
+                if (!wasGrounded)
+                    OnLandEvent.Invoke();
+            }
+        }
+
+
+    }
 
 
     public void Move(float move, bool crouch, bool jump)
@@ -115,11 +134,6 @@ public class CharacterController2D : MonoBehaviour
                 }
             }
 
-            // Move the character by finding the target velocity
-            Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
-            // And then smoothing it out and applying it to the character
-            m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
-
             // If the input is moving the player right and the player is facing left...
             if (move > 0 && !m_FacingRight)
             {
@@ -134,64 +148,63 @@ public class CharacterController2D : MonoBehaviour
             }
         }
 
-        // If the player should jump...
-        /*
-        //Original Jump Script - Jumps Max Height Every Time
-		if (m_Grounded && jump)
-		{
-			// Add a vertical force to the player.
-			m_Grounded = false;
-			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-		}
-        */
 
-        //Jump Code 1.1 - Jumps in a natural Physics based way Parabolic
-        if (jump && m_Grounded == true)
+        // Move the character by finding the target velocity
+        //Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
+        // And then smoothing it out and applying it to the character
+        //transform.position = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+
+
+        //So the 
+        Vector3 movementVector = Vector2.zero;
+        
+        Vector2 horizontalVector = (Vector2.right * move * 10f)*Time.deltaTime;
+        Vector2 verticalVector = Vector2.zero;
+        
+        
+        //Jump Code 1.1 - Removed physics to do a "force" based Jump
+
+        //JumpForce = JumpForce + (Physics2D.gravity.y * Time.deltaTime); //Jump Force - gravity   
+     /*
+        if (JumpForce < Physics2D.gravity.y)
         {
-            m_Rigidbody2D.AddForce(new Vector2(0f, JumpForce));
-            JumpForce = JumpForce + (Physics2D.gravity.y); //Jump Force - gravity
-            print(JumpForce);
-            if (JumpForce < 0f)
-                JumpForce = 0f;
-
-        }
-
-        //Jump Code 1.2 - Floatier Jump with harsher gravity at the end
-
-        //If your velocity is negative you will fall faster
-        if (m_Rigidbody2D.velocity.y < 0)
-        {
-            m_Rigidbody2D.velocity += Vector2.up * Physics2D.gravity.y * (HighGravity - 1) * Time.deltaTime;
-            //This is set in the animator for simplicity's sake
-            if (isFloating && DraftDirection == AirDraft.None)
-            {
-                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_Rigidbody2D.velocity.y / LowGravity - 2);
-            }
-            else if (isFloating && DraftDirection == AirDraft.Up)
-            {
-                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, WindPower.getPower());
-            }
-            else if (isFloating && DraftDirection == AirDraft.Right)
-            {
-                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x + WindPower.getPower(), m_Rigidbody2D.velocity.y / LowGravity - 2);
-
-            }
-            else if (isFloating && DraftDirection == AirDraft.Down)
-            {
-                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, -WindPower.getPower() + m_Rigidbody2D.velocity.y / LowGravity - 2);
-
-            }
-            else if (isFloating && DraftDirection == AirDraft.Left)
-            {
-                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x - WindPower.getPower(), m_Rigidbody2D.velocity.y / LowGravity - 2);
-            }
-        }//If your velocity is positive your velocity is reduced less than normal
-        else if(m_Rigidbody2D.velocity.y > 0 && !jump)
-        {
-            m_Rigidbody2D.velocity += Vector2.up * Physics2D.gravity.y * (LowGravity - 1) * Time.deltaTime;
+            JumpForce = Physics2D.gravity.y;
             m_Grounded = false;
         }
-        
+    */
+
+        //Jump Code 1.2 - Floatier Jump with harsher gravity at the end
+        //If your velocity is negative you will fall faster
+        if (jump)
+        { 
+            //This is set in the animator for simplicity's sake
+            if (isFloating)
+            {
+                JumpForce = JumpForce + (Physics2D.gravity.y * (LowGravity - 1)*Time.deltaTime);
+                if (JumpForce < (Physics2D.gravity.y / 2)) JumpForce /= 2;
+            }
+            else
+            {
+                JumpForce = JumpForce + (Physics2D.gravity.y * HighGravity - 1 ) * Time.deltaTime;
+                if (JumpForce < (Physics2D.gravity.y)) JumpForce = Physics2D.gravity.y;
+            }
+            verticalVector = Vector2.up * JumpForce * Time.deltaTime;
+        }//If your velocity is positive your velocity is reduced less than normal
+        else if(!jump)
+        {
+            //verticalVector += (Vector2.up * Physics2D.gravity.y * (LowGravity - 1) * Time.deltaTime);
+            if (JumpForce > 0) JumpForce = 0;
+            JumpForce = JumpForce + (Physics2D.gravity.y * LowGravity - 1) * Time.deltaTime;
+            //m_Rigidbody2D.velocity += Vector2.up * Physics2D.gravity.y * (LowGravity - 1) * Time.deltaTime;
+        }
+
+        if (!m_Grounded)
+        {
+            verticalVector = Vector2.up * JumpForce * Time.deltaTime;
+        }
+
+        movementVector = horizontalVector + verticalVector;
+        transform.position = transform.position + movementVector;
 
     }
 

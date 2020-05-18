@@ -390,7 +390,17 @@ PrefabInstance:
     - target: {fileID: 5606708866544924161, guid: c9852ddeeef9b2d46a1a4610a3322425,
         type: 3}
       propertyPath: m_JumpForce
-      value: 110
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606708866544924161, guid: c9852ddeeef9b2d46a1a4610a3322425,
+        type: 3}
+      propertyPath: LowGravity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606708866544924161, guid: c9852ddeeef9b2d46a1a4610a3322425,
+        type: 3}
+      propertyPath: HighGravity
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5606708866544924163, guid: c9852ddeeef9b2d46a1a4610a3322425,
         type: 3}
@@ -452,7 +462,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5606708866544924173, guid: c9852ddeeef9b2d46a1a4610a3322425, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c9852ddeeef9b2d46a1a4610a3322425, type: 3}
 --- !u!1 &503918207
 GameObject:
