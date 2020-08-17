@@ -105,7 +105,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 603e0aeb661975e45b3ad993cdb8f248, type: 3}
+  m_Sprite: {fileID: -1378521658571115459, guid: 68364768e6124834bbf531e525e63f33,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -188,7 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FlightLogic: 1
-  MyCreator: {fileID: 0}
+  MyOrigin: {fileID: 0}
   Speed: 15
   Distance: 5
   Lifespan: 0

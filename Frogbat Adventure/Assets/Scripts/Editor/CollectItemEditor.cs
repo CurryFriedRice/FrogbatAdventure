@@ -42,7 +42,7 @@ public class CollectItemEditor : Editor
             case CollectibleType.KEYS:
                 #region
                 GUILayout.Label("----KEYS EDITOR----", EditorStyles.boldLabel);
-                    ObjectField = serializedObject.FindProperty("Door");
+                    ObjectField = serializedObject.FindProperty("Portal");
                     EditorGUILayout.PropertyField(ObjectField);
                 #endregion
                 break;

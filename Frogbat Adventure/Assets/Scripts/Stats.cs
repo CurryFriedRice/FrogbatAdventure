@@ -16,12 +16,6 @@ public class Stats : MonoBehaviour
     #endregion
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     private void Awake()
     {
         if(GetComponent<CharacterController2D>() != null && GetComponent<PlayerMovement>()) {
@@ -36,12 +30,12 @@ public class Stats : MonoBehaviour
     }
     
 
-    public void GetHit(int DamageValue, LaunchType Launch)
+    public void GetHit(int DamageValue, LaunchType Launch, Vector2 LaunchVector)
     {
         //So if they get hit they will start a co routine
         if (invulnerable == false)
         {
-            myCon.Launch(Launch);
+            myCon.Launch(Launch, LaunchVector);
             Health -= DamageValue;
             StartCoroutine(InvulFrames());
         }
@@ -50,10 +44,7 @@ public class Stats : MonoBehaviour
     IEnumerator InvulFrames()
     {
         float currentTime = invulTime;
-
         invulnerable = true;
-        //myAnim.setBool("Invul", true);
-
         while (currentTime > 0)
         {
             if (GlobalVar.PAUSED == false)
@@ -62,10 +53,7 @@ public class Stats : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
             }
         }
-
         invulnerable = false;
-        //myAnim.setBool("Invul", false);
-
     }
 
 }

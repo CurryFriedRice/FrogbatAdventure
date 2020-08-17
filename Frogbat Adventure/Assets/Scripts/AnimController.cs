@@ -13,12 +13,9 @@ public class AnimController : MonoBehaviour
     public AnimTriggers[] Sequence;
     int SequenceStep = 0;
 
-
     //This thing is the thing that controls the Animator for ALL OBjects If it's animated it should have a controller.
     Animator MyAnim;
     
-
-
     private void Awake()
     {
         if (MyAnim == null) MyAnim = GetComponent<Animator>();

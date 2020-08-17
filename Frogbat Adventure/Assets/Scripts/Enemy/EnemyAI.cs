@@ -5,11 +5,14 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     protected AIStates State = AIStates.Idle;
+    public AnimController Anim;
+    protected bool Active;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Awake()
     {
-        
+        Active = true;
+        if (Anim == null) Anim = GetComponent<AnimController>();
     }
 
     // Update is called once per frame
@@ -33,6 +36,7 @@ public class EnemyAI : MonoBehaviour
                 Death();
                 break;
             defualt:
+                LogWarning(State.ToString() + " : State does not Exist");
                 break;
         }
     }

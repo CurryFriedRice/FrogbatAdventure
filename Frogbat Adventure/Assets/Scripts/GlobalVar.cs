@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 //Grapple is a forward and upward force
 //Damage is A launch upward and backwards
 //Superjump is a launch straight upward it's also currently not used
-public enum LaunchType { NONE, GRAPPLE, DAMAGE, SUPERJUMP};
+public enum LaunchType { NONE, GRAPPLE, DAMAGE, SUPERJUMP, EXTERNAL};
 
 //So Bubble Elements are applied to the bubble when the player eats stuff... 
 //It'll check what the eatable target's element is then tell the bubble shooter what kind of thing to shoot
@@ -18,24 +18,36 @@ public enum Element { NONE, FIRE, ICE, WATER, EARTH, AIR, ELECTRIC };
 public enum HazardType { STAGE, SINGLE };
 
 //Item Types
-public enum CollectibleType {KEYS, TEMPSHOT, SHOTOVERRIDE, POWERUP};
+public enum CollectibleType {KEYS, TEMPSHOT, SHOTOVERRIDE, POWERUP, COLLECTIBLE};
 
 public enum GameState { MAINMENU, CUTSCENE, GAMEPLAY, GAMEMENU}
 
 public enum CameraType { STATIC, HORIZONTAL, VERTICAL, FOLLOW, RAILED}
 
-public enum AnimTriggers { Action1, Action2, Action3, ToIdle, EXMovement, IdleLayer}
+//Triggers for the player Animator
 public enum P_AnimTriggers { IsGrounded, IsFloating, IsMoving, IsJumping, IsCrouching, InWater}
+
 public enum GameTags { Player}
 
+public enum RailType { OneWay, Rubberband, Loop, UnitActivated}
+
+
+//BASIC ENEMY STATES
 public enum AIStates {Idle,Chase, Attack, Damaged, Dead}
+//Used for Triggering the Basic animator
+public enum AnimTriggers { Action1, Action2, Action3, ToIdle, EXMovement, IdleLayer }
+
 
 //Used for the Shooters
-public enum ShooterType {Stats, Single, Burst, Fan, Shotgun, Rapid, Laser}
+public enum ShooterType {Stats, Single, Burst, Fan, Shotgun, Rapid, Laser, Area}
 public enum ProjectileLogic { Basic, Boomerang, Lob, Lift}
 public enum ProjectileModifier { None , Piercing, Multipart, Bouncing, Stats }
 
 
+public enum ButtonType {OneTime, Toggle, Weighted}
+public enum RecieverType {Single, OrSwitch, AllTrue, AllFalse}
+
+public enum ToggleType { GameObject, Collider, Animator, Effector }
 
 //DEBUG MENUS
 public enum DEBUG_MENUS {SYSTEM,STAGE,PLAYER }
@@ -50,8 +62,10 @@ public class GlobalVar : MonoBehaviour
     public static float LowGravity { get; } = 2f;
     public static float HighGravity { get; } = 2.5f;
 
-    public static LayerMask PlayerGround = LayerMask.GetMask("Default", "Platform");//= 1536/1537;
+    public static LayerMask PlayerGround = LayerMask.GetMask("Default", "Surface");//= 1536/1537;
     public static LayerMask DropThroughPlatform = LayerMask.GetMask("Default");
+
+
     #endregion
 
 

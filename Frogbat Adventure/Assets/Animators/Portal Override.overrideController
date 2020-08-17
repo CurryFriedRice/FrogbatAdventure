@@ -9,8 +9,6 @@ AnimatorOverrideController:
   m_Name: Portal Override
   m_Controller: {fileID: 9100000, guid: 7d5bc3f8a02c0dc4a9bf6e46ab82d37c, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 0bb550c3ec775d94e9b1e681f01611cb, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: eca013eb7f98f684986118182ac3decb, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: da6127323bbf8614c8ca2306f4b318a2, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 3b23a78c80317cc4989889a0b39e82ab, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: f5e84e0ac0901244cb4d15a33b2fcb38, type: 2}

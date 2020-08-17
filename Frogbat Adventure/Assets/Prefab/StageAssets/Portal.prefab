@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1291480830042021381}
   - component: {fileID: 1291480830042021378}
-  - component: {fileID: 1291480830042021379}
   - component: {fileID: 1291480830042021380}
   - component: {fileID: 6204436642036450554}
+  - component: {fileID: 1291480830042021379}
   - component: {fileID: 7419001578796903855}
   m_Layer: 0
   m_Name: Portal Object
@@ -86,19 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1291480830042021379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1291480830042021376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63a43244d1a9dd1499bd4218fdab0837, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MyStage: 0-8B - StageSwapping
 --- !u!61 &1291480830042021380
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -123,7 +110,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!95 &6204436642036450554
 Animator:
@@ -144,6 +131,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1291480830042021379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291480830042021376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a43244d1a9dd1499bd4218fdab0837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MyStage: 0-8B - StageSwapping
 --- !u!114 &7419001578796903855
 MonoBehaviour:
   m_ObjectHideFlags: 0

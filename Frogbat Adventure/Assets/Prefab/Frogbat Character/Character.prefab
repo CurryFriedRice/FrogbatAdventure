@@ -552,7 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b847c23f5126c40b84ec5aade3c390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 100
+  m_JumpForce: 110
   BonusJumpForce: 0
   m_CrouchSpeed: 1
   m_MovementSmoothing: 0.05
@@ -627,6 +627,7 @@ MonoBehaviour:
   ProjectilePoint: {fileID: 8108717250640899462}
   animController: {fileID: 0}
   controller: {fileID: 5606708866544924161}
+  UseToggle: 0
   A1: {fileID: 816521078}
   A2: {fileID: 2059463214}
   A3: {fileID: 2059463214}
