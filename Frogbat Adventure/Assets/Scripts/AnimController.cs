@@ -74,15 +74,15 @@ public class AnimController : MonoBehaviour
         SequenceStep++;
         if (SequenceStep >= Sequence.Length) SequenceStep = 0;
         float delay = delayTime;
-        while (delay > 0) 
-        {
-            float dt = Time.deltaTime;
-            yield return new WaitForSeconds(dt);
-            if (!GlobalVar.PAUSED)
-            {
-                delay -= dt;
-            }
-        }
+        //while (delay > 0) 
+        //{
+        //    float dt = Time.deltaTime;
+            yield return new WaitForSeconds(delayTime);
+        //    if (!GlobalVar.PAUSED)
+        //   {
+        //        delay -= dt;
+        //    }
+        //}
         StartCoroutine(ConstantTrigger());
     }
 

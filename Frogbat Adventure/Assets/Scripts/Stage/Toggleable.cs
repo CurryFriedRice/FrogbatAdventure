@@ -107,8 +107,7 @@ public class Toggleable : MonoBehaviour, IToggleable
     
     IEnumerator ToggleEffector(bool Active)
     {
-        UnityEngine.Debug.Log("UH OH HOTDOG");
-        
+
         bool Finish = false;
         float currentHeight;
         if (Active)

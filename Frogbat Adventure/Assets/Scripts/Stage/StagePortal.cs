@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 public class StagePortal : MonoBehaviour, IToggleable
 {
     // Start is called before the first frame update
-    public string MyStage;
+    public int StageExitNumber;
+    public bool[] isSecretExit = new bool[] { false };
+
+    List<GameObject> CollidedObj = new List<GameObject>();
     BoxCollider2D MyCollider;
     AnimController MyAnim;
-    bool Toggled = false;
+    public bool Toggled = false;
 
     void Awake()
     {
@@ -23,26 +26,28 @@ public class StagePortal : MonoBehaviour, IToggleable
             MyAnim = GetComponent<AnimController>();
             MyAnim.enabled = true;
 
-            if (Toggled) MyAnim.ForceTrigger(AnimTriggers.Action2);
-            else MyAnim.ForceTrigger(AnimTriggers.Action1);
+            if (Toggled) ToggleOn();
+            else ToggleOff();
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")LoadStage();
+        if (collision.tag == "Player" && !CollidedObj.Contains(collision.gameObject)) 
+        { 
+            FinishStage();
+            CollidedObj.Add(collision.gameObject);
+        }
     }
 
-    public void LoadStage()
+    public void FinishStage()
     {
-        Debug.Log(SceneManager.GetSceneByName(MyStage));
-        SceneManager.LoadScene(MyStage);
+        //Debug.Log(SceneManager.GetSceneByName(MyStage));
+        FindObjectOfType<GameManager>().StageMan.CompleteStage();
+        FindObjectOfType<GameManager>().StageMan.UnlockStage(StageExitNumber);
+        FindObjectOfType<GameManager>().StageMan.LoadStage(StageExitNumber);
+     
     }
 
     public void Toggle()
@@ -77,5 +82,5 @@ public class StagePortal : MonoBehaviour, IToggleable
         //throw new System.NotImplementedException();
     }
 
- 
+    
 }

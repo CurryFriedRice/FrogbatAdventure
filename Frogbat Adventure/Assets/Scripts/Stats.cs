@@ -33,26 +33,23 @@ public class Stats : MonoBehaviour
     public void GetHit(int DamageValue, LaunchType Launch, Vector2 LaunchVector)
     {
         //So if they get hit they will start a co routine
-        if (invulnerable == false)
+        if (DamageValue > 0 && !invulnerable)
         {
-            myCon.Launch(Launch, LaunchVector);
             Health -= DamageValue;
+        }
+        if (!invulnerable)
+        {
+            StopAllCoroutines();
+            myCon.Launch(Launch, LaunchVector);
             StartCoroutine(InvulFrames());
         }
+        
     }
 
     IEnumerator InvulFrames()
     {
-        float currentTime = invulTime;
         invulnerable = true;
-        while (currentTime > 0)
-        {
-            if (GlobalVar.PAUSED == false)
-            {
-                currentTime -= Time.deltaTime;
-                yield return new WaitForSeconds(Time.deltaTime);
-            }
-        }
+        yield return new WaitForSeconds(invulTime);
         invulnerable = false;
     }
 

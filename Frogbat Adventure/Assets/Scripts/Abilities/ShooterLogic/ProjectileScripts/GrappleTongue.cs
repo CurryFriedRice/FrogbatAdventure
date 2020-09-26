@@ -45,7 +45,7 @@ public class GrappleTongue : MonoBehaviour
     {
         //Targets the player and then Applies a Pull Force 
         if (Creator == null) Creator = GetComponent<BaseProjectile>().GetCreator();
-        if (Creator != null) Creator.GetComponent<CharacterController2D>().Launch(LaunchType.GRAPPLE, Vector2.zero);
+        if (Creator != null) Creator.GetComponent<Stats>().GetHit(0,LaunchType.GRAPPLE, GlobalVar.GrappleForce*3);
         DestroyThis();
     }
 

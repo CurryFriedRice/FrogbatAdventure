@@ -14,8 +14,7 @@ public class CollectItem : MonoBehaviour
     public StagePortal Portal;
 
     [SerializeField]
-    public Element MyElement;
-
+    public SecretBlessing MyElement;
 
     [SerializeField]
     public int AbilitySlot;
@@ -24,11 +23,40 @@ public class CollectItem : MonoBehaviour
     public Ability MyAbility;
 
     [SerializeField]
-    public int ShotCount;
+    public int AuxNumber;
+
+
+    [SerializeField]
+    GameObject FollowTarget;
+    float followDistance;
+    bool FoundLock = false;
 
     private void Awake()
     {
         Debug.Log(Portal) ;
+    }
+
+    private void FixedUpdate()
+    {
+        if (FoundLock == false)
+        {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, followDistance * Mathf.Abs(transform.localScale.x));
+            foreach (Collider2D obj in colliders)
+            {
+                if (obj.GetComponent<ToggleButton>().GetButtonType() == ButtonType.KeyLocked)
+                {
+                    FollowTarget = obj.gameObject;
+                    followDistance = 0;
+                    FoundLock = true;
+                }
+            }
+        }
+
+        if (FollowTarget != null && Vector2.Distance(transform.position, FollowTarget.transform.position) < followDistance)
+        {
+            transform.position = Vector2.Lerp(transform.position, FollowTarget.transform.position, 0.1f);
+        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -38,6 +66,8 @@ public class CollectItem : MonoBehaviour
         {
             case CollectibleType.KEYS:
                     //This is commanding the Collectible To start its pickup animation and put itself relative to the parent... Subject to change
+                    #region Old
+                    /*
                     if (GetComponent<AnimController>() != null)
                     {
                         transform.parent.parent = collision.transform;
@@ -49,24 +79,33 @@ public class CollectItem : MonoBehaviour
                 else { Debug.LogWarning("This Key does not have a portal to target"); }
                     //Destruction is handled with the end of the animation.
                     //Destroy(this.gameObject);
-                break;
+                    */
+                    #endregion
+
+                    break;
             case CollectibleType.TEMPSHOT:
                     AbilitySlot = Mathf.Clamp(AbilitySlot, 0, 2);
-                    ShotCount = Mathf.Clamp(ShotCount, 0, 200);
-                    collision.GetComponent<ActionInput>().SetTempAbility(AbilitySlot,MyAbility,ShotCount);
+                    AuxNumber = Mathf.Clamp(AuxNumber, 0, 200);
+                    collision.GetComponent<ActionInput>().SetTempAbility(AbilitySlot,MyAbility,AuxNumber);
                 break;
             case CollectibleType.SHOTOVERRIDE:
                     AbilitySlot = Mathf.Clamp(AbilitySlot, 0, 2);
-                    ShotCount = Mathf.Clamp(ShotCount, 0, 200);
-                    collision.GetComponent<ActionInput>().OverrideBaseShot(AbilitySlot, MyAbility, ShotCount);
+                    AuxNumber = Mathf.Clamp(AuxNumber, 0, 200);
+                    collision.GetComponent<ActionInput>().OverrideBaseShot(AbilitySlot, MyAbility, AuxNumber);
                     break;
             case CollectibleType.POWERUP:
-                break;
-
+                    break;
             case CollectibleType.COLLECTIBLE:
+                    //So if it's a collectible it needs to talk to the Game Manager and tell it to update the current stage. 
+                    break;
             default:
                 Debug.Log("What the heck?");
                 break;
         }
+    }
+
+    public CollectibleType GetCollectType()
+    {
+        return MyType;
     }
 }

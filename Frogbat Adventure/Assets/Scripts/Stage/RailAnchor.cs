@@ -10,4 +10,5 @@ public class RailAnchor : MonoBehaviour
 
     public RailAnchor Previous;
     public RailAnchor Next;
+
 }

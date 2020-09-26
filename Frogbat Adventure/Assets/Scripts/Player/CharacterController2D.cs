@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -24,15 +25,16 @@ public class CharacterController2D : MonoBehaviour
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector3 m_Velocity = Vector3.zero;
 
-    private Vector3 ExternalVelocity = Vector2.zero;
-    
+    private List<Vector3> ExternalForces = new List<Vector3>();
+    private Vector3 ExternalForce = Vector3.zero;
+    private bool InEffector = false;
+
+    private Vector3 LaunchVelocity = Vector2.zero;
+    private bool isFloating;
 
 
     //Custom Parameter
     private float JumpForce = 0;
-    public bool isFloating = false;
-    
-    private GameObject CurrentPlatform;
     public bool floatingEnabled = true;
     [Header("Events")]
     [Space]
@@ -103,6 +105,8 @@ public class CharacterController2D : MonoBehaviour
         }
 
         //only control the player if grounded or airControl is turned on
+
+
         if (m_Grounded || m_AirControl)
         {
 
@@ -133,12 +137,15 @@ public class CharacterController2D : MonoBehaviour
                 }
             }
 
-            ExternalVelocity = Vector2.Lerp(ExternalVelocity, Vector2.zero, 0.1f);
+            LaunchVelocity = Vector2.Lerp(LaunchVelocity, Vector2.zero, 0.1f);
+            if(InEffector)ExternalForce = CombineVectors(ref ExternalForces);
+            ExternalForce = Vector2.Lerp(ExternalForce, Vector2.zero, 0.1f);
+
             // Move the character by finding the target velocity
             Vector3 targetVelocity = new Vector2(move * 10f * Mathf.Abs(transform.localScale.x), m_Rigidbody2D.velocity.y);
             // And then smoothing it out and applying it to the character
-            m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity+ExternalVelocity, ref m_Velocity, m_MovementSmoothing);
-
+            m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity+LaunchVelocity+ExternalForce, ref m_Velocity, m_MovementSmoothing);
+            //Debug.Log(m_Rigidbody2D.velocity);
             // If the input is moving the player right and the player is facing left...
             // Add m_Grounded if you want to lock float direction.
             if (move > 0 && !m_FacingRight)
@@ -154,68 +161,38 @@ public class CharacterController2D : MonoBehaviour
             }
         }
 
-    
-
-
         Vector2 VerticalVector = Vector2.zero;
 
         //Jump Code 1.2 - Floatier Jump with harsher gravity at the end
 
-        //If your velocity is negative you will fall faster
-        //if (m_Rigidbody2D.velocity.y < 0)
-
-        //float ScaledLowGrav = Physics2D.gravity.y * transform.localScale.y;
-        //float ScaledHighGrav = Physics2D.gravity.y * transform.localScale.y;
-
         float ScaledGrav = Physics2D.gravity.y * transform.localScale.y;
-
-        if (floatingEnabled)
+        if (jump && JumpForce > 0)//so if you have any jump force left you'll move continue to move upwards
         {
-            if (jump && JumpForce > 0)
-            {
-                ToggleHeadCollider(true);
-                JumpForce = JumpForce + (ScaledGrav * (GlobalVar.LowGravity - 1));
-                VerticalVector = Vector2.up * JumpForce;
-            }
-            else if (jump && JumpForce < 0)
-            {
-                ToggleHeadCollider(true);
-                if (m_Rigidbody2D.velocity.y < ScaledGrav / 4)
-                    m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, ScaledGrav / 4);
-            }
-            else if (JumpForce < 0 || !jump)
-            {
-                ToggleHeadCollider(false);
-                if (JumpForce > 0) JumpForce = 0;
-                else if (JumpForce < ScaledGrav) JumpForce = ScaledGrav;
-                JumpForce = JumpForce + (ScaledGrav * (GlobalVar.HighGravity - 1));
-                VerticalVector = Vector2.up * JumpForce; //* transform.localScale.y
-            }
-            m_Rigidbody2D.velocity += VerticalVector*Time.deltaTime;
+            ToggleHeadCollider(true);
+            JumpForce = JumpForce + (ScaledGrav * (GlobalVar.LowGravity - 1));
+            VerticalVector = Vector2.up * JumpForce;
+
         }
-        else
+        else if (jump && JumpForce < 0 && floatingEnabled)//You're Jumping and Floating Down slowly
         {
-            if (jump && JumpForce > 0)
-            {
-                ToggleHeadCollider(true);
-                JumpForce = JumpForce + (ScaledGrav * (GlobalVar.LowGravity - 1));
-                VerticalVector = Vector2.up * JumpForce;
-
-            }           
-            else if (JumpForce < 0 || !jump)
-            {
-                ToggleHeadCollider(false);
-                if (JumpForce > 0) JumpForce = 0;
-                else if (JumpForce < ScaledGrav) JumpForce = ScaledGrav;
-                JumpForce = JumpForce + (ScaledGrav * (GlobalVar.HighGravity - 1));
-                VerticalVector = Vector2.up * JumpForce; //* transform.localScale.y
-
-            }
-
-            m_Rigidbody2D.velocity += VerticalVector * Time.deltaTime;
+            isFloating = true;
+            ToggleHeadCollider(true);
+            if (m_Rigidbody2D.velocity.y < ScaledGrav / 4)
+                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, ScaledGrav / 4);
+        }
+        else if (JumpForce < 0 || !jump)//So if your jump force is 0 or you let go of jump you start falling
+        {
+            isFloating = false;
+            ToggleHeadCollider(false);
+            if (JumpForce > 0) JumpForce = 0;
+            else if (JumpForce < ScaledGrav) JumpForce = ScaledGrav;
+            JumpForce = JumpForce + (ScaledGrav * (GlobalVar.HighGravity - 1));
+            VerticalVector = Vector2.up * JumpForce; //* transform.localScale.y
         }
 
-
+        if (m_Grounded) ToggleHeadCollider(true);
+        m_Rigidbody2D.velocity += VerticalVector * Time.deltaTime;
+        
     }
 
     private void Flip()
@@ -228,47 +205,15 @@ public class CharacterController2D : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+    
 
-    private void SetFloating(bool Floating)
-    {
-        isFloating = Floating;
-    }
-
+    
     public bool IsCrouching()
     {
         return m_wasCrouching;
     }
 
-    public bool Launch(LaunchType Type, Vector2 Direction)
-    {
-        //Debug.Log("I've been launched");
-        //m_Rigidbody2D.AddRelativeForce(new Vector2(m_Rigidbody2D.velocity.x + 700 * transform.localScale.x, 0*m_Rigidbody2D.velocity.y + 500*transform.localScale.y));
-        switch (Type) {
-            case LaunchType.GRAPPLE:
-                {
-                    if (m_Grounded)
-                        ExternalVelocity = new Vector2(15 * transform.localScale.x, 7f);
-                    else
-                        ExternalVelocity = new Vector2(15 * transform.localScale.x, 3.5f);
-                    JumpForce = 0;
-                }
-                break;
-            case LaunchType.DAMAGE:
-                {
-                    if (m_Grounded) ExternalVelocity = new Vector2(-7.5f * transform.localScale.x, 5f);
-                    else ExternalVelocity = new Vector2(-7.5f * transform.localScale.x, 0f);
-                    StartCoroutine(TempDisableControls());
-                    JumpForce = 0;
-                }
-                break;
-            case LaunchType.NONE:
-                break;
-            default:
-                break;
-        }
 
-    return true;
-    }
 
     void ToggleHeadCollider(bool b)
     {
@@ -286,7 +231,7 @@ public class CharacterController2D : MonoBehaviour
         JumpForce = 0;
         if (m_WhatIsGround == GlobalVar.PlayerGround)
         {
-            ExternalVelocity = new Vector2(0, -1.5f);
+            LaunchVelocity = new Vector2(0, -1.5f);
             Physics2D.IgnoreLayerCollision(8, 9);
             m_WhatIsGround = GlobalVar.DropThroughPlatform;
             //ToggleHeadCollider(false);
@@ -306,9 +251,73 @@ public class CharacterController2D : MonoBehaviour
         m_WhatIsGround = GlobalVar.PlayerGround;
     }
 
-    public void SwapElement(Element type)
+
+    public bool Launch(LaunchType Type, Vector2 Direction, bool EffectsGrounded = false)
     {
-        
+        //Debug.Log("I've been launched");
+        //m_Rigidbody2D.AddRelativeForce(new Vector2(m_Rigidbody2D.velocity.x + 700 * transform.localScale.x, 0*m_Rigidbody2D.velocity.y + 500*transform.localScale.y));
+        switch (Type)
+        {
+            case LaunchType.GRAPPLE:
+                {
+                    JumpForce = 0;//our Jump force is now zeroed out and isn't continually added to the Jump
+                    if (m_Grounded)
+                        LaunchVelocity += new Vector3(Direction.x * transform.localScale.x, Direction.y);
+                    else
+                        LaunchVelocity += new Vector3(Direction.x * transform.localScale.x, Direction.y/2);
+                }
+                break;
+            case LaunchType.DAMAGE:
+                {
+                    //if (m_Grounded) LaunchVelocity += new Vector3(Direction.x * transform.localScale.x, Direction.y);
+                    //else LaunchVelocity += new Vector3(Direction.x * transform.localScale.x, Direction.y/2);
+                    if (m_Grounded) LaunchVelocity += new Vector3(Direction.x, Direction.y);
+                    else LaunchVelocity += new Vector3(Direction.x, Direction.y / 2);
+                    StartCoroutine(TempDisableControls());
+                    JumpForce = 0;
+                }
+                break;
+            case LaunchType.EXTERNAL:
+                {
+                    InEffector = true;
+                    if (!ExternalForces.Contains(Direction)) ExternalForces.Add(Direction);
+                    /*
+                    if (EffectsGrounded) //Mostly used for horizontal forces
+                    {
+                        LaunchVelocity = new Vector3(Direction.x, Direction.y);
+                    }
+                    else if (!m_Grounded && isFloating && !EffectsGrounded) //Used for Mostly Vertical Forces
+                    {
+                        if(JumpForce < 0) JumpForce = 0;
+                        LaunchVelocity = new Vector3(Direction.x, Direction.y);
+                    }
+                    */
+                    if (!m_Grounded && isFloating && !EffectsGrounded) //Used for Mostly Vertical Forces
+                    {
+                        if (JumpForce < 0) JumpForce = 0;
+                        //LaunchVelocity = new Vector3(Direction.x, Direction.y);
+                    }
+                }
+                break;
+            case LaunchType.NONE:
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
+    Vector3 CombineVectors(ref List<Vector3> AllVectors)
+    {
+        Vector3 ExternalVelocity = Vector3.zero;
+
+        foreach(Vector3 Current in AllVectors)
+        {
+            ExternalVelocity += Current;            
+        }
+
+        return ExternalVelocity;
     }
 
     IEnumerator TempDisableControls()
@@ -318,6 +327,11 @@ public class CharacterController2D : MonoBehaviour
         GlobalVar.GlobalControls.BaseMovement.Enable();
     }
 
+    public void RemoveExternal(Vector3 _Vector)
+    {
+        if (ExternalForces.Contains(_Vector)) ExternalForces.Remove(_Vector);
+        InEffector = false;
+    }
     /*
     private void OnCollisionExit2D(Collision2D collision)
     {

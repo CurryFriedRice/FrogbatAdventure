@@ -5,9 +5,36 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Stages/MainMenu.unity
+    guid: 8f8a77838b1b79f45b06cf1d3bb3fcab
+  - enabled: 1
+    path: Assets/Scenes/Stages/StageSelect.unity
+    guid: 3d84f54b5ca66a445add164d3f700f16
+  - enabled: 1
+    path: Assets/Scenes/Stages/World1/GreenBoss.unity
+    guid: d1680cd289d14a34c8c076c5506e33aa
+  - enabled: 1
+    path: Assets/Scenes/Stages/World1/GreenButton.unity
+    guid: 477b4811f6cb6854595dfd8547aef4a7
+  - enabled: 1
+    path: Assets/Scenes/Stages/World1/GreenCannon.unity
+    guid: e3357b975d7746b4c9c3be6bb5cbdb67
+  - enabled: 1
+    path: Assets/Scenes/Stages/World1/GreenGrapple.unity
+    guid: f423f5d841fd9d34796c32048bcdcc42
+  - enabled: 1
+    path: Assets/Scenes/Stages/World1/GreenJump.unity
+    guid: b34e4af58e59765488413a7d7255a7aa
+  - enabled: 1
+    path: Assets/Scenes/Stages/World1/GreenLock.unity
+    guid: 84144fd11fe237048b16683b59523b07
+  - enabled: 1
+    path: Assets/Scenes/Stages/World1/GreenWind.unity
+    guid: 0582212bde5276f4cb7470254637aa79
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: a2455cda7a79c8a499118d6518a178fc,
       type: 2}

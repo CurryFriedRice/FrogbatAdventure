@@ -12,11 +12,13 @@ public class CameraBoundsTrigger : MonoBehaviour
     public Transform[] GameObjectPositions;
     public Vector2 ExtraOffset;
     public float FollowSpeed = 1f;
+    public float Zoom = 5f;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        FindObjectOfType<CameraController>().SetVariables(NewType, NewBounds, ExtraOffset, FollowSpeed);
+        //FindObjectOfType<CameraController>().SetVariables(NewType, null, NewBounds, ExtraOffset, FollowSpeed);
     }
 
     // Update is called once per frame
@@ -28,6 +30,10 @@ public class CameraBoundsTrigger : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(collision.tag + " tagged item is trying to change camera");
-        if(collision.GetComponent<CharacterController2D>() != null) FindObjectOfType<CameraController>().SetVariables(NewType, NewBounds, ExtraOffset, FollowSpeed); ;
+        if (collision.GetComponent<CharacterController2D>() != null)
+        {
+            FindObjectOfType<CameraController>().SetVariables(NewType, collision.gameObject, NewBounds, ExtraOffset, FollowSpeed);
+            FindObjectOfType<CameraController>().SetZoom(Zoom);
+        }
     }
 }

@@ -28,7 +28,7 @@ public class RailRider : MonoBehaviour, IToggleable
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(RailSys == null || !Active) { }
+        if (RailSys == null || !Active || GlobalVar.PAUSED) { }
         else if (CurrentNode == null)
         {
             CurrentNode = RailSys.GetClosestNode(transform);

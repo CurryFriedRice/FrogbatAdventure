@@ -8,9 +8,11 @@ using UnityEngine;
 public class HazardousItem : MonoBehaviour
 {
     public int DamageAmount;
+    public float KnockbackMod = 1f;
+    //public List<GameObject> HitTarget = new List<GameObject>();
     public LaunchType Launch = LaunchType.NONE;
     public ProjectileModifier HitBox = ProjectileModifier.None;
-
+    
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -24,7 +26,7 @@ public class HazardousItem : MonoBehaviour
         switch (collision.tag)
         {
             case "Player":
-                DamagePlayer(collision.GetComponent<Stats>());
+                    DamagePlayer(collision.GetComponent<Stats>());
                 break;
             default:
                 Debug.Log("UH OH HOT DOG");
@@ -34,11 +36,13 @@ public class HazardousItem : MonoBehaviour
 
     void DamagePlayer(Stats target)
     {
-        if(target == null)
+        if (target == null) Debug.Log("UHHH TARGET HAS NO STATS!");
+        else
         {
-            Debug.Log("UHHH TARGET HAS NO STATS!");
-        }else 
-            target.GetHit(DamageAmount, Launch, new Vector2(0,0));
+            Vector2 LaunchDirection = GlobalVar.KnockbackForce* KnockbackMod * Mathf.Sign(transform.position.x - target.transform.position.x);
+            target.GetHit(DamageAmount, Launch, LaunchDirection);
+        }
+        Debug.Log("HONKADOOK CHECK THIS BOOT");
     }
 
 }

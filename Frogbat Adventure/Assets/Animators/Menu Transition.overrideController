@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Menu Transition
+  m_Controller: {fileID: 9100000, guid: 7d5bc3f8a02c0dc4a9bf6e46ab82d37c, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: f5e84e0ac0901244cb4d15a33b2fcb38, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 273dfeb8fd5544a4390262407356f026, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: ccb68bda4d7cf4c4e80af4c52f2da331, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 34b0910b2072f9746996301db2f75427, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a099212f46b9a284fb819e4caa77de35, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1a6fc960b4bfb3c41b7f9baa5fea2f2c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0bb550c3ec775d94e9b1e681f01611cb, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 390a1c74aabc3b645b5fd1e62a8ed410, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c833106fc78385d4d9fc9eec32f7fa64, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: eabe7f5b9de8c1c4aaac799abc97197b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5c6a87fb83bfb71438e1a8d95fa75a5a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 369d4cfc19d40be479ee8badbbdb2d21, type: 2}

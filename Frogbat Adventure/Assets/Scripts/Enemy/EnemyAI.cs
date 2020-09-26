@@ -18,27 +18,28 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     protected virtual void FixedUpdate()
     {
-        switch (State)
-        {
-            case AIStates.Idle:
-                Idle();
-                break;
-            case AIStates.Chase:
-                Chase();
-                break;
-            case AIStates.Attack:
-                Attack();
-                break;  
-            case AIStates.Damaged:
-                Damaged();
-                break;
-            case AIStates.Dead:
-                Death();
-                break;
-            defualt:
-                LogWarning(State.ToString() + " : State does not Exist");
-                break;
-        }
+        if (Active)
+            switch (State)
+            {
+                case AIStates.Idle:
+                    Idle();
+                    break;
+                case AIStates.Chase:
+                    Chase();
+                    break;
+                case AIStates.Attack:
+                    Attack();
+                    break;
+                case AIStates.Damaged:
+                    Damaged();
+                    break;
+                case AIStates.Dead:
+                    Death();
+                    break;
+                defualt:
+                    LogWarning(State.ToString() + " : State does not Exist");
+                    break;
+            }
     }
 
     protected virtual void Idle()

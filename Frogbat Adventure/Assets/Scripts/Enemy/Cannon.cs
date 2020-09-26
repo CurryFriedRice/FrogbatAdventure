@@ -10,14 +10,15 @@ public class Cannon : EnemyAI, IToggleable
 
     protected override void FixedUpdate()
     {
-        if(Active)
+        
          base.FixedUpdate();
+        
     }
 
     #region
     protected override void Idle()
     {
-        if (Ready)
+        if (Ready )
         {
             State = AIStates.Attack;
         }
@@ -63,12 +64,14 @@ public class Cannon : EnemyAI, IToggleable
 
     public void Toggle()
     {
+        bool OldToggle = Active;
         Active = !Active;
+        //Debug.Log("CAnnon Was Toglged?" + Active + " From " + OldToggle);
     }
 
     public void ToggleOn()
     {
-        throw new System.NotImplementedException();
+        Active = true;
     }
 
     public void ToggleOff()

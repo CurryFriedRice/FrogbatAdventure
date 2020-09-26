@@ -26,23 +26,25 @@ public class ToggleManager : MonoBehaviour
         {
             ListOfToggleables.Add(Toggle.GetComponent<IToggleable>());
         }
-
+        /*
         foreach (IToggleable Toggle in ListOfToggleables)
         {
             Debug.Log(Toggle);
         }
+        */
     }
 
     public void UpdateToggle()
     {
-        Debug.Log(myState());
+        //Debug.Log(myState());
         foreach (IToggleable Item in ListOfToggleables)
         {
             Item.Toggle();
         }
+        
     }
 
-
+    /*
     bool myState()
     {
         bool NewState = InitialState;
@@ -52,5 +54,5 @@ public class ToggleManager : MonoBehaviour
         }
         return NewState;
     }
-
+    */
 }

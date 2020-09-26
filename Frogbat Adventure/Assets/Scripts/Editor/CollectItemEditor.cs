@@ -42,11 +42,17 @@ public class CollectItemEditor : Editor
             case CollectibleType.KEYS:
                 #region
                 GUILayout.Label("----KEYS EDITOR----", EditorStyles.boldLabel);
-                    ObjectField = serializedObject.FindProperty("Portal");
-                    EditorGUILayout.PropertyField(ObjectField);
+                ObjectField = serializedObject.FindProperty("Portal");
+                EditorGUILayout.PropertyField(ObjectField);
                 #endregion
                 break;
-            
+            case CollectibleType.COLLECTIBLE:
+                #region
+                GUILayout.Label("----COLLECTABLE EDITOR----", EditorStyles.boldLabel);
+                ObjectField = serializedObject.FindProperty("AuxNumber");
+                EditorGUILayout.PropertyField(ObjectField, new GUIContent("Stage Collectible", "Which collectible Index it should target"));
+                #endregion
+                break;
             case CollectibleType.POWERUP:
                 #region
                 GUILayout.Label("----POWERUPS EDITOR----", EditorStyles.boldLabel);
@@ -60,9 +66,11 @@ public class CollectItemEditor : Editor
                 EditorGUILayout.PropertyField(ObjectField);
                 ObjectField = serializedObject.FindProperty("MyAbility");
                 EditorGUILayout.PropertyField(ObjectField);
-                ObjectField = serializedObject.FindProperty("ShotCount");
-                EditorGUILayout.PropertyField(ObjectField);
+                ObjectField = serializedObject.FindProperty("AuxNumber");
+                EditorGUILayout.PropertyField(ObjectField, new GUIContent("ShotCount", "How many shots till you revert"));
+//EditorGUILayout.PropertyField(ObjectField, new GUIContent("Delay", "How fast between Updates the collider/sprite"));
                 break;
+            
             default:
                 break;
         }

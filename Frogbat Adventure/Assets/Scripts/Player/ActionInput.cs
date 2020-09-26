@@ -325,16 +325,17 @@ public class ActionInput : MonoBehaviour, Controls2D.IActionInputsActions
 
     public void SetToggleTarget(ToggleButton target)
     {
-        if (Button.Contains(target))
+        if(!Button.Contains(target))
         {
-            Debug.Log("Hey I'm gonna remove:" + target.name);
-            Button.Clear();
-        }
-        else
-        {
-            Debug.Log("Hey I'm adding:" + target.name);
+            //Debug.Log("Hey I'm adding:" + target.name);
             Button.Add(target);
         }
+        else if (Button.Contains(target))
+        {
+            //Debug.Log("Hey I'm gonna remove:" + target.name);
+            Button.Clear();
+        }
+ 
     }
    
 }

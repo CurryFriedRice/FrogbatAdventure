@@ -16,45 +16,75 @@ public class ToggleButton : MonoBehaviour
     public bool Timed = false;
     public float DelayTime;
     public AnimController Anim;
-    
 
+    List<GameObject> Triggers = new List<GameObject>();
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        ActionInput Activator = collision.GetComponent<ActionInput>();
-        switch (Type)
+       
+        if (!Triggers.Contains(collision.gameObject))
         {
-            case ButtonType.OneTime:
-            case ButtonType.Toggle:
-                if (Activator!= null) 
-                {
-                    Activator.SetToggleTarget(this);
-                }
+            Triggers.Add(collision. gameObject);
+            switch (Type)
+            {
+                case ButtonType.OneTime:
+                case ButtonType.Toggle:
+                    ActionInput Activator = collision.GetComponent<ActionInput>();
+                    if (Activator != null)
+                    {
+                        Activator.SetToggleTarget(this);
+                        //Activator.SetToggleTarget(this, true);
+                    }
+                    break;
+                case ButtonType.Weighted:
+                    UpdateState(true);
+                    TellManager();
+                    break;
+                case ButtonType.KeyLocked:
+                    CollectItem Key = collision.GetComponent<CollectItem>();
+                    if (Key != null)
+                    {
+                        UpdateState(true);
+                        TellManager();
+                    }
                 break;
-            case ButtonType.Weighted:
-                Toggled = true;
-                break;
-            default:
-                break;
+                default:
+                    break;
+            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        ActionInput Activator = collision.GetComponent<ActionInput>();
-        switch (Type)
+        
+        if (Triggers.Contains(collision.gameObject))
         {
-            case ButtonType.OneTime:
-            case ButtonType.Toggle:
-                if (Activator != null)
-                {
-                    Activator.SetToggleTarget(this);
-                }
-                break;
-            case ButtonType.Weighted:
-                Toggled = false;
-                break;
-            default:
-                break;
+            Triggers.Remove(collision.gameObject);
+            switch (Type)
+            {
+                case ButtonType.OneTime:
+                case ButtonType.Toggle:
+                    ActionInput Activator = collision.GetComponent<ActionInput>();
+                    if (Activator != null)
+                    {
+                        Activator.SetToggleTarget(this);
+                        //Activator.SetToggleTarget(this, false);
+                    }
+                    break;
+                case ButtonType.Weighted:
+                    UpdateState(false);
+                    TellManager();
+                    break;
+                case ButtonType.KeyLocked:
+                    CollectItem Key = collision.GetComponent<CollectItem>();
+                    if (Key != null)
+                    {
+                        UpdateState(false);
+                        TellManager();
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -64,7 +94,7 @@ public class ToggleButton : MonoBehaviour
         switch (Type)
         {
             case ButtonType.OneTime:
-                Toggled = true;
+                UpdateState(true);
                 TellManager();
                 if (Timed)
                 {
@@ -73,7 +103,7 @@ public class ToggleButton : MonoBehaviour
                 }
                 break;
             case ButtonType.Toggle:
-                Toggled = !Toggled;
+                UpdateState();
                 TellManager();
                 if (Timed && Toggled)
                 {
@@ -82,7 +112,7 @@ public class ToggleButton : MonoBehaviour
                 }
                 break;
             case ButtonType.Weighted:
-                Toggled = true;
+                UpdateState(true);
                 break;
             default:
                 break;
@@ -115,4 +145,43 @@ public class ToggleButton : MonoBehaviour
     {
         return Toggled;
     }
+    
+    void UpdateState() 
+    {
+        Toggled = !Toggled;
+        if (Toggled) 
+        {
+            Anim.ForceLayer(1);
+            Anim.ForceTrigger(AnimTriggers.ToIdle);
+            Anim.ForceTrigger(AnimTriggers.Action2);
+        }
+        else 
+        {
+            Anim.ForceLayer(0);
+            Anim.ForceTrigger(AnimTriggers.ToIdle);
+            Anim.ForceTrigger(AnimTriggers.Action1);
+        }
+    }
+    void UpdateState(bool value)
+    {
+        Toggled = value;
+        if (Toggled)
+        {
+            Anim.ForceLayer(1);
+            Anim.ForceTrigger(AnimTriggers.ToIdle);
+            Anim.ForceTrigger(AnimTriggers.Action2);
+        }
+        else
+        {
+            Anim.ForceLayer(0);
+            Anim.ForceTrigger(AnimTriggers.ToIdle);
+            Anim.ForceTrigger(AnimTriggers.Action1);
+        }
+    }
+    
+    public ButtonType GetButtonType()
+    {
+        return Type;
+    }
+
 }

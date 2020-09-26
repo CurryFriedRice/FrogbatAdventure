@@ -42,8 +42,8 @@ GameObject:
   - component: {fileID: 5553037862367063745}
   - component: {fileID: 5553037862367063751}
   - component: {fileID: 5553037862367063748}
-  - component: {fileID: 5553037862367063750}
   - component: {fileID: 9218252933534296738}
+  - component: {fileID: 5553037862367063750}
   - component: {fileID: 1106008737207415716}
   m_Layer: 0
   m_Name: StraightFlySpike
@@ -138,6 +138,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &9218252933534296738
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5553037862367063744}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &5553037862367063750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,32 +184,6 @@ MonoBehaviour:
   DestroyByDistance: 1
   DestroyByLifespan: 1
   UpDistance: 0
---- !u!61 &9218252933534296738
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5553037862367063744}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &1106008737207415716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,5 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3bbad9484ea77f4a96ce1ecdd995d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageAmount: 0
-  Launch: 0
+  DamageAmount: 1
+  KnockbackMod: 2
+  Launch: 2
+  HitBox: 0

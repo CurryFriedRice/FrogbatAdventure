@@ -294,7 +294,7 @@ public class @Controls2D : IInputActionCollection, IDisposable
                     ""name"": ""Point"",
                     ""type"": ""PassThrough"",
                     ""id"": ""14893dfe-9bdb-406f-982b-3ffc36df63ed"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -348,7 +348,7 @@ public class @Controls2D : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Cancel"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""04931af0-0c40-4221-842c-15008c4c065a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -406,28 +406,6 @@ public class @Controls2D : IInputActionCollection, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""69d91e12-8771-40c2-8585-0cdd1c3991df"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardInputs"",
-                    ""action"": ""Point"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b5a4c53a-a2b3-45d4-8495-ec0f63607482"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardInputs"",
-                    ""action"": ""Click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""823884e9-703e-4416-b96c-136b549fc893"",
                     ""path"": """",
                     ""interactions"": """",
@@ -440,10 +418,21 @@ public class @Controls2D : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3a7e0c1f-c7ef-44c0-94fa-2f9f2a1eac82"",
-                    ""path"": """",
+                    ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardInputs"",
+                    ""action"": ""RightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff18ffb8-0fde-4584-a923-70c2c8f8cf67"",
+                    ""path"": ""*/{Back}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""RightClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -711,6 +700,28 @@ public class @Controls2D : IInputActionCollection, IDisposable
                     ""action"": ""SwitchDebug"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d456c691-ec49-41e7-b6d2-d237ace7f8b8"",
+                    ""path"": ""*/{Point}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6de2eeee-4d9a-46f6-baaf-6085c21721d0"",
+                    ""path"": ""*/{Submit}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }

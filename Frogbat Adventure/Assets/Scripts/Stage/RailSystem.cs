@@ -32,10 +32,10 @@ public class RailSystem : MonoBehaviour
     
     void Awake()
     {
-        Debug.Log(AnchorParent.GetComponentsInChildren<RailAnchor>());
+        //Debug.Log(AnchorParent.GetComponentsInChildren<RailAnchor>());
         foreach (RailAnchor Anchor in AnchorParent.GetComponentsInChildren<RailAnchor>())
         {
-            Debug.Log(Anchor.name);
+            //Debug.Log(Anchor.name);
             //So if the anchor isn't already in the list ADD IT
             if (!AnchorList.Contains(Anchor)) AnchorList.AddRange(GetComponentsInChildren<RailAnchor>());
             //if(Anchor.transform == this.transform) AnchorLocations.Remove(this.transform);      
@@ -72,7 +72,7 @@ public class RailSystem : MonoBehaviour
                 TotalDistance += Vector2.Distance(Pos1,Pos2);
                 GenerateRail(Pos1, Pos2);
             }
-            Debug.Log(TotalDistance);
+            //Debug.Log(TotalDistance);
         }
 
         
@@ -214,11 +214,11 @@ public class RailSystem : MonoBehaviour
                 }
             case RailType.Loop:
                 return CurrentAnchor.Next;
-                break;
+                
             case RailType.UnitActivated:
             default:
                 return null;
-                break;
+                
         }
         
     }

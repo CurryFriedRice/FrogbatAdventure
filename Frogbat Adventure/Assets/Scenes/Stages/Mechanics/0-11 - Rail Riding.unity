@@ -508,7 +508,7 @@ PrefabInstance:
     - target: {fileID: 5606708866544924172, guid: c9852ddeeef9b2d46a1a4610a3322425,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.71
+      value: -3.71
       objectReference: {fileID: 0}
     - target: {fileID: 5606708866544924172, guid: c9852ddeeef9b2d46a1a4610a3322425,
         type: 3}
@@ -798,6 +798,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RailSys: {fileID: 1649997845}
   CurrentNode: {fileID: 0}
+  Active: 1
   NeedObject: 0
 --- !u!4 &817092701
 Transform:
@@ -825,6 +826,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Speed
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 450335370749583251, guid: 3d22c9bfdb3e22242a3f230cb79a379b,
+        type: 3}
+      propertyPath: Lerping
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1045096448436100596, guid: 3d22c9bfdb3e22242a3f230cb79a379b,
         type: 3}
@@ -909,7 +915,7 @@ PrefabInstance:
     - target: {fileID: 5170537774980318952, guid: 3d22c9bfdb3e22242a3f230cb79a379b,
         type: 3}
       propertyPath: Lerping
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5728144122021423320, guid: 3d22c9bfdb3e22242a3f230cb79a379b,
         type: 3}
@@ -924,7 +930,7 @@ PrefabInstance:
     - target: {fileID: 6958179657406604638, guid: 3d22c9bfdb3e22242a3f230cb79a379b,
         type: 3}
       propertyPath: Lerping
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7381604436712236928, guid: 3d22c9bfdb3e22242a3f230cb79a379b,
         type: 3}
@@ -945,6 +951,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Speed
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984809763802892720, guid: 3d22c9bfdb3e22242a3f230cb79a379b,
+        type: 3}
+      propertyPath: Lerping
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d22c9bfdb3e22242a3f230cb79a379b, type: 3}
@@ -1178,6 +1189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RailSys: {fileID: 1649997845}
   CurrentNode: {fileID: 0}
+  Active: 1
   NeedObject: 0
 --- !u!4 &1627701877
 Transform:
@@ -1244,6 +1256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RailSys: {fileID: 1649997845}
   CurrentNode: {fileID: 0}
+  Active: 1
   NeedObject: 0
 --- !u!4 &1758909223
 Transform:
@@ -1392,6 +1405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RailSys: {fileID: 1649997845}
   CurrentNode: {fileID: 0}
+  Active: 1
   NeedObject: 0
 --- !u!4 &1911731094
 Transform:

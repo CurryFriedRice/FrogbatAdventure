@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public static CameraType MyCameraType = CameraType.STATIC;
-    static GameObject FollowTarget;
+    public CameraType MyCameraType = CameraType.STATIC;
+    GameObject FollowTarget;
 
     //Index 0 is always Either Left or Above the player 
     //Index 1 is always Either Right or Below the player
-    static Vector2[] FollowBounds = new Vector2[2];
-    public static Vector2 ExtraOffset = Vector2.zero;
-    public static float CameraSpeed;
+    Vector2[] FollowBounds = new Vector2[2];
+    public Vector2 ExtraOffset = Vector2.zero;
+    public float CameraSpeed;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        //So if the Camera finds another audio listener... E.g. It's on a player, then the one on the camera will be turned off
+        if (FindObjectsOfType<AudioListener>().Length > 1) GetComponent<AudioListener>().enabled = false;
     }
+
+
 
     // Update is called once per frame
     void FixedUpdate()
     {
         //So depending on what the cameratype is do different things
-
         switch (MyCameraType)
         {
             case CameraType.STATIC:
@@ -42,15 +44,30 @@ public class CameraController : MonoBehaviour
             default:
                 Debug.Log("Excuse me?!? What follow logic is the camera using");
                 break;
-        }
-    }
+        }        
+}
 
-    public void SetVariables(CameraType NewType, Vector2[] NewBounds, Vector2 NewOffset, float NewSpeed)
+    public void SetVariables(CameraType NewType, GameObject Target, Vector2[] NewBounds, Vector2 NewOffset, float NewSpeed)
     {
+        FollowTarget = Target;
         MyCameraType = NewType;
         FollowBounds = NewBounds;
         ExtraOffset = NewOffset;
         CameraSpeed = NewSpeed;
+    }
+
+    public void SetZoom(float Zoom)
+    {
+        Camera MainCam = Camera.main;
+        StopCoroutine("SetCameraSize");
+        StartCoroutine(SetCameraSize(MainCam, Zoom));
+    }
+
+    IEnumerator SetCameraSize(Camera cam, float zoom)
+    {
+        yield return new WaitForSeconds(Time.deltaTime);
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, zoom, 0.1f);
+        if (cam.orthographicSize != zoom) SetCameraSize(cam, zoom);
     }
 
     public void FindPlayer()
@@ -71,9 +88,6 @@ public class CameraController : MonoBehaviour
 
     void MoveHorizontal()
     {
-        if (FollowTarget == null)
-            FindPlayer();
-
         Vector2 PlayerPos = FollowTarget.transform.position;
         Vector3 NewCameraPosition;
         float xPosition = 0f;
@@ -99,8 +113,6 @@ public class CameraController : MonoBehaviour
     void MoveVertical()
     {
         //Find Figure out the X position 
-        if (FollowTarget == null)
-            FindPlayer();
 
         Vector2 PlayerPos = FollowTarget.transform.position;
         Vector3 NewCameraPosition;
@@ -125,8 +137,6 @@ public class CameraController : MonoBehaviour
 
     void MoveFollow()
     {
-        if (FollowTarget == null)
-            FindPlayer();
 
         Vector2 PlayerPos = FollowTarget.transform.position;
         Vector3 NewCameraPosition;

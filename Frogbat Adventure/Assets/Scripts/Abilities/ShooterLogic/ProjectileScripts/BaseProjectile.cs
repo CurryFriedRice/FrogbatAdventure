@@ -95,22 +95,6 @@ public class BaseProjectile : MonoBehaviour
         return MyCreator;
     }
 
-   
-    IEnumerator TimedDestroy()
-    {
-        float dt;
-        while(Lifespan > 0)
-        {
-            if (!GlobalVar.PAUSED)
-            {
-                dt = Time.deltaTime;
-                yield return new WaitForSeconds(dt);
-                Lifespan -= dt;
-            }
-        }
-        DestroyThis();
-    }
-
     //Basic shot flight types
 
     //It flies straight... nothing more
@@ -153,6 +137,12 @@ public class BaseProjectile : MonoBehaviour
     {
         Debug.Log("This isn't created yet...");
     }
-    
+
+
+    IEnumerator TimedDestroy()
+    {
+        yield return new WaitForSeconds(Lifespan);        
+        DestroyThis();
+    }
 
 }
